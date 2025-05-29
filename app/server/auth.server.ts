@@ -16,14 +16,12 @@ export const sendCode = async (
   session: typeof sessionsTable.$inferSelect,
   email: string
 ) => {
-
-
   try {
     const { signedToken, unsignedToken } = generateSessionToken();
 
     const updatedSessions = await db
       .update(sessionsTable)
-      .set({ token: signedToken })
+      .set({ code: signedToken })
       .where(eq(sessionsTable.id, session.id))
       .returning();
 
@@ -36,13 +34,11 @@ export const sendCode = async (
 };
 
 export const verifyCode = async (code: string) => {
-
-
   try {
     const session = await getCurrentSession();
 
     const { code: expectedCode } = jwt.verify(
-      session.token as string,
+      session.code as string,
       JWT_SECRET!
     ) as { code: string };
 
@@ -50,7 +46,7 @@ export const verifyCode = async (code: string) => {
       const [sessionSuccess, updatedSessions, msg1] = await safeTry(
         db
           .update(sessionsTable)
-          .set({ token: null })
+          .set({ code: null })
           .where(eq(sessionsTable.id, session.id))
           .returning()
       );
@@ -81,8 +77,6 @@ export const signUpWithEmailAndPassword = async (
   email: string,
   password: string
 ) => {
-
-
   try {
     const [existingUser] = await db
       .select()
@@ -104,7 +98,7 @@ export const signUpWithEmailAndPassword = async (
 
     const [session] = await db
       .insert(sessionsTable)
-      .values({ userId: user.id, token: null })
+      .values({ userId: user.id, code: null })
       .returning();
 
     if (!session) throw new Error(ERRORS.SESSION_CREATION_ERROR);
@@ -119,8 +113,6 @@ export const signInWithEmailAndPassword = async (
   email: string,
   password: string
 ) => {
-
-
   try {
     //check that the user exists
     const [user] = await db

@@ -2,7 +2,7 @@
 
 ## 2025-05-29
 
-# Initializes Next.js auth starter kit
+### Initializes Next.js auth starter kit
 
 Sets up a Next.js starter project with authentication, Tailwind CSS, shadcn/ui, Drizzle ORM, and PostgreSQL.
 
@@ -12,3 +12,11 @@ Sets up a Next.js starter project with authentication, Tailwind CSS, shadcn/ui, 
 - Adds server actions for handling authentication logic
 - Sets up basic UI components and layouts for authentication flows
 - Includes a new custom theme with global styles
+
+### Implements code-based authentication
+
+Refactors authentication to use a short-lived code
+sent to the user's email instead of a long-lived token.
+
+This change improves security by reducing the window of
+opportunity for unauthorized access.

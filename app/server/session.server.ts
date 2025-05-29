@@ -5,48 +5,50 @@ import { ERRORS } from "@/lib/types";
 import jwt from "jsonwebtoken";
 import { getCookie } from "./actions";
 
-
 export const generateSessionToken = () => {
-    let code = ""
+  let code = "";
 
-    for(let i = 0; i < 6; i++){
-        code += Math.floor(Math.random() * 9).toString()
-    }
+  for (let i = 0; i < 6; i++) {
+    code += Math.floor(Math.random() * 9).toString();
+  }
 
-    const signedToken = jwt.sign({ code } , JWT_SECRET as any , { expiresIn: JWT_EXPIRES_IN as any })
+  const signedToken = jwt.sign({ code }, JWT_SECRET as any, {
+    expiresIn: JWT_EXPIRES_IN as any,
+  });
 
-    return {
-        signedToken,
-        unsignedToken: code
-    }
-}
+  return {
+    signedToken,
+    unsignedToken: code,
+  };
+};
 
-export const createSession = async (userId: string, token: string | null) => {
+export const createSession = async (userId: string, code: string | null) => {
+  "use server";
 
-    "use server";
+  const data = {
+    userId,
+    code,
+  };
 
-    const data = {
-        userId,
-        token
-    }
-
-    return (await db.insert(sessionsTable).values(data).returning() as any as Array<typeof sessionsTable.$inferSelect>)[0]
-}
+  return (
+    (await db.insert(sessionsTable).values(data).returning()) as any as Array<
+      typeof sessionsTable.$inferSelect
+    >
+  )[0];
+};
 
 export const getCurrentSession = async () => {
-    
-    "use server";
-    
-    try {
+  "use server";
 
-        const session = await getCookie("session")
+  try {
+    const session = await getCookie("session");
 
-        if(!session){
-            throw new Error(ERRORS.UNAUTHORIZED)
-        }
-
-        return JSON.parse(session as any) as typeof sessionsTable.$inferSelect
-    }catch (e) {
-        throw e
+    if (!session) {
+      throw new Error(ERRORS.UNAUTHORIZED);
     }
-}
+
+    return JSON.parse(session as any) as typeof sessionsTable.$inferSelect;
+  } catch (e) {
+    throw e;
+  }
+};
