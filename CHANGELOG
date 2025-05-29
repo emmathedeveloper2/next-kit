@@ -20,3 +20,9 @@ sent to the user's email instead of a long-lived token.
 
 This change improves security by reducing the window of
 opportunity for unauthorized access.
+
+### Updates .gitignore to track .env file
+
+Modifies the .gitignore file to track the .env file.
+
+This change ensures that the .env file, which typically contains environment-specific configuration, is included in the repository.
