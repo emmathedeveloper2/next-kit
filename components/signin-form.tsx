@@ -82,9 +82,6 @@ export default function SignInForm({
                       "Sign in"
                   }
                 </Button>
-                <Button variant="outline" className="w-full">
-                  Sign in with Google
-                </Button>
               </div>
             </div>
             <div className="mt-4 text-center text-sm">

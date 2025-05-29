@@ -26,3 +26,8 @@ opportunity for unauthorized access.
 Modifies the .gitignore file to track the .env file.
 
 This change ensures that the .env file, which typically contains environment-specific configuration, is included in the repository.
+
+### Removes Google sign-in buttons
+
+Removes the Google sign-in button from both the sign-in and sign-up forms.
+The removal streamlines the authentication process, focusing on email and password authentication.

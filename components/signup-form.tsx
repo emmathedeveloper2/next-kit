@@ -88,9 +88,6 @@ export default function SignUpForm({
                       "Sign Up"
                   }
                 </Button>
-                <Button variant="outline" className="w-full">
-                  Sign Up with Google
-                </Button>
               </div>
             </div>
             <div className="mt-4 text-center text-sm">
